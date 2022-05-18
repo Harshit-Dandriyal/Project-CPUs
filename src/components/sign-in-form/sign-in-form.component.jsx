@@ -10,6 +10,7 @@ import { signInWithGooglePopup,
 
 import Button from "../button/button.component";
 import './sign-in-form.style.scss';
+import { isOptionGroup } from "@mui/base";
 const defaultformFields = {
     email: '',
     password: '',
@@ -36,6 +37,17 @@ const signInWithGoogle = async () => {
                 console.log(response);
                 restFormFields();
             } catch(error) {
+                switch(error.code){
+                    case 'auth/wrong-password':
+                        alert('incorrect password for email');
+                        break;
+                    case 'auth/user-not-found':
+                        alert('no user associated with this email');
+                        break;
+                    default:
+                        console.log(error);
+
+                }
                 
 
             }
@@ -60,7 +72,7 @@ const signInWithGoogle = async () => {
             <FormInput label="Password" type="password" required onChange={handleChange} name ="password" value={password}/>
             <div className="buttons-container">
             <Button type="submit">Sign In </Button>
-            <Button buttonType='google' onClick= {signInWithGoogle }>Google Sign In </Button>
+            <Button type='button' buttonType='google' onClick= {signInWithGoogle }>Google Sign In </Button>
             </div>
             </form>
 
